@@ -6,8 +6,7 @@
     "removeComments": true,
     "noLib": false,
     "rootDir": "src/",
-    "outDir": "dst/",
-    "inlineSourceMap": true
+    "outDir": "dst/"
   },
   "files": [
     "src/brainfuck.ts",

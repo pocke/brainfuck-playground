@@ -70,7 +70,7 @@ namespace Brainfuck {
   };
 
   export const enum Token {
-    incPtr,
+    incPtr = 1,
     decPtr,
     incByte,
     decByte,
