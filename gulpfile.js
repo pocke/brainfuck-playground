@@ -28,4 +28,4 @@ gulp.task('tsconfig', function () {
     .pipe(tsconfig({newline_eof: true}));
 });
 
-gulp.task('default', ['ts', 'watch']);
+gulp.task('default', ['tsconfig', 'ts', 'watch']);

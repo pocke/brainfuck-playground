@@ -9,6 +9,7 @@
     "outDir": "dst/"
   },
   "files": [
+    "src/evaluator.ts",
     "src/language.ts",
     "src/parser.ts"
   ]
