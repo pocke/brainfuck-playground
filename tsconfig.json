@@ -9,7 +9,7 @@
     "outDir": "dst/"
   },
   "files": [
-    "src/brainfuck.ts",
+    "src/compiler.ts",
     "src/language.ts"
   ]
 }
