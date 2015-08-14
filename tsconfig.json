@@ -9,7 +9,7 @@
     "outDir": "dst/"
   },
   "files": [
-    "src/compiler.ts",
-    "src/language.ts"
+    "src/language.ts",
+    "src/parser.ts"
   ]
 }

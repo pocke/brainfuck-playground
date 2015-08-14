@@ -2,12 +2,12 @@
 /// <reference path="./language.ts" />
 
 namespace Brainfuck {
-  export class Compiler {
+  export class Parser {
     constructor(private lang: Language = DEFAULT_LANGUAGE) {
       LanguageValidate(lang);
     }
 
-    compile(programStr: string): Token[] {
+    parse(programStr: string): Token[] {
       let program: Token[] = [];
       let lang = LanguageToArray(this.lang);
       let tok = "";
