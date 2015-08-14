@@ -8,5 +8,8 @@
     "rootDir": "src/",
     "outDir": "dest/"
   },
-  "files": []
+  "files": [
+    "src/brainfuck.ts",
+    "src/language.ts"
+  ]
 }
