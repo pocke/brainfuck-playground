@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pocke/brainfuck-web.svg)](https://travis-ci.org/pocke/brainfuck-web)
+[![Build Status](https://travis-ci.org/pocke/brainfuck-playground.svg)](https://travis-ci.org/pocke/brainfuck-playground)
 
 
 Installation
