@@ -6,11 +6,12 @@
     "removeComments": true,
     "noLib": false,
     "rootDir": "src/",
-    "outDir": "dst/"
+    "out": "dst/main.js"
   },
   "files": [
     "src/evaluator.ts",
     "src/language.ts",
-    "src/parser.ts"
+    "src/parser.ts",
+    "src/ui.ts"
   ]
 }

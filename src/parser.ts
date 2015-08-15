@@ -2,6 +2,14 @@
 /// <reference path="./language.ts" />
 
 namespace Brainfuck {
+  export class ParseError implements Error {
+    public name: string;
+
+    constructor(public message: string) {
+      this.name = 'ParseError';
+    }
+  }
+
   export class Parser {
     constructor(private lang: Language = DEFAULT_LANGUAGE) {
       LanguageValidate(lang);
@@ -43,13 +51,13 @@ namespace Brainfuck {
           case Token.jumpForward: level++; break;
           case Token.jumpBack:
             if (level === 0) {
-              throw new Error("paren failed!!!"); // TODO: msg
+              throw new ParseError("paren failed!!!"); // TODO: msg
             }
             level--;
             break;
         }
       });
-      if (level !== 0) { throw new Error("paren failed"); }
+      if (level !== 0) { throw new ParseError("paren failed"); }
     }
   }
 }

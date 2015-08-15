@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Brainfuck Playground</title>
+
+<link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<div class="container" id="vue-main">
+  <div class="row">
+    <h1 class="page-header">Brainfuck Playground</h1>
+    <div class="col-xs-12">
+      <h3>Program</h3>
+      <textarea class="form-control" rows="10" v-model="program"></textarea>
+      <div class="alert alert-danger" v-if="hasParseError" v-text="parseError"></div>
+      <button class="btn btn-primary btn-lg" v-attr="disabled: hasParseError" v-on="click: run()">Run</button>
+    </div>
+
+    <div class="col-xs-12">
+      <h3>Input</h3>
+    </div>
+
+    <div class="col-xs-12">
+      <h3>Output</h3>
+      <pre><code v-text="output"></code></pre>
+    </div>
+  </div>
+</div>
+
+
+<script src="node_modules/vue/dist/vue.js"></script>
+<script src="node_modules/lodash/index.js"></script>
+
+<script src="dst/main.js"></script>
+</body>
