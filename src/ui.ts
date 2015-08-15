@@ -27,8 +27,9 @@ namespace Brainfuck {
           run: this.run,
         },
         computed: {
-          parseError: this._parseError,
-          hasParseError: this.hasParseError,
+          parseError:       this._parseError,
+          invalidLangError: this._invalidLangError,
+          hasError:         this._hasError,
         }
       });
     }
@@ -62,8 +63,21 @@ namespace Brainfuck {
       return "";
     }
 
-    hasParseError(): boolean {
-      return this.parseError !== "";
+    private invalidLangError: string;
+    _invalidLangError(): string {
+      try {
+        LanguageValidate(this.lang);
+      } catch (e) {
+        if (e instanceof InvalidLanguage) {
+          return e.message;
+        }
+      }
+      return "";
+    }
+
+    private hasError: boolean;
+    _hasError(): boolean {
+      return this.parseError !== "" || this.invalidLangError !== "";
     }
 
 

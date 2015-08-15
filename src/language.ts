@@ -12,6 +12,14 @@ namespace Brainfuck {
     jumpBack:    string; // ]
   }
 
+  export class InvalidLanguage implements Error {
+    public name: string;
+
+    constructor(public message: string) {
+      this.name = 'InvalidLanguage';
+    }
+  }
+
   export function LanguageToArray(lang: Language): string[] {
     const res: string[] = [];
     _.forEach(lang, (v: string) => {
@@ -28,7 +36,7 @@ namespace Brainfuck {
         if (i === j) { return; }
 
         if (_.startsWith(x, y)) {
-          throw new Error(`${x} starts with ${y}`);
+          throw new InvalidLanguage(`${x} starts with ${y}`);
         }
       });
     });
