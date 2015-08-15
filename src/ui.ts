@@ -5,9 +5,9 @@
 namespace Brainfuck {
   class MainVM extends Vue {
     private program: string;
-    private lang: Language;
-    private input: string;
-    private output: string;
+    private lang:    Language;
+    private input:   string;
+    private output:  string;
 
 
     constructor() {
