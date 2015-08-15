@@ -27,6 +27,8 @@
     "test": "./node_modules/karma/bin/karma start --single-run --browsers PhantomJS,Firefox"
   },
   "dependencies": {
-    "lodash": "^3.10.1"
+    "bootstrap": "^3.3.5",
+    "lodash": "^3.10.1",
+    "vue": "^0.12.10"
   }
 }

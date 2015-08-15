@@ -16,7 +16,7 @@ gulp.task('ts', function () {
   return tsProject.src()
     .pipe(ts(tsProject))
     .js
-    .pipe(gulp.dest('./dst/'));
+    .pipe(gulp.dest('./'));
 });
 
 gulp.task('watch', function () {
