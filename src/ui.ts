@@ -4,18 +4,12 @@
 
 namespace Brainfuck {
   class MainVM extends Vue {
-    private program: string;
-    private lang:    Language;
-    private input:   string;
     private output:  string;
 
 
-    constructor() {
-      this.program = "";
-      this.lang = DEFAULT_LANGUAGE;
-      this.input = "";
-
-      super({
+    constructor(private program: string, private lang: Language = DEFAULT_LANGUAGE, private input: string = "") {
+      super();
+      this._init({
         el: '#vue-main',
         data: {
           program: this.program,
@@ -89,6 +83,10 @@ namespace Brainfuck {
   }
 
 
-  const vm = new MainVM();
+  const helloWorld = `This program is hello world
++++++++++[>++++++++>+++++++++++>+++++<<<-]>.>++.+++++++..+++.>-.
+------------.<++++++++.--------.+++.------.--------.>+.`;
+
+  const vm = new MainVM(helloWorld);
   console.log(vm);
 }
