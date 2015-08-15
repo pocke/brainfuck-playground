@@ -36,9 +36,9 @@
       <h3>Language</h3>
       <form class="form-horizontal">
         <div class="form-group" v-repeat="lang">
-          <label class="control-label col-xs-3" v-text="$key"></label>
+          <label class="control-label col-xs-3" for="lang-{{$key}}" v-text="$key"></label>
           <div class="col-xs-9">
-            <input type="text" class="form-control" v-model="$value">
+            <input type="text" class="form-control" id="lang-{{$key}}" v-model="$value">
           </div>
         </div>
       </form>
