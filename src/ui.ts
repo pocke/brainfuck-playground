@@ -9,6 +9,7 @@ namespace Brainfuck {
     private input: string;
     private output: string;
 
+
     constructor() {
       this.program = "";
       this.lang = DEFAULT_LANGUAGE;
@@ -24,9 +25,9 @@ namespace Brainfuck {
         },
         methods: {
           run: this.run,
-        }
+        },
         computed: {
-          parseError: this.parseError,
+          parseError: this._parseError,
           hasParseError: this.hasParseError,
         }
       });
@@ -49,7 +50,8 @@ namespace Brainfuck {
 
     // computeds
 
-    parseError(): string {
+    private parseError: string;
+    _parseError(): string {
       try {
         this.parse();
       } catch (e) {
