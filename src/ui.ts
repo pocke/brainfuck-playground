@@ -55,7 +55,9 @@ namespace Brainfuck {
       try {
         this.parse();
       } catch (e) {
-        return (<Error>e).message;
+        if (e instanceof ParseError) {
+          return e.message;
+        }
       }
       return "";
     }
