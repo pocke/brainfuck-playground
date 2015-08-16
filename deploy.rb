@@ -16,10 +16,8 @@ puts
 
 
 files = %w[
-  dst/main.js
+  build/main.js
   node_modules/bootstrap/dist/css/bootstrap.min.css
-  node_modules/lodash/index.js
-  node_modules/vue/dist/vue.js
 ]
 
 puts "start git add"
