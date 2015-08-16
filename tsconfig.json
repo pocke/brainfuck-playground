@@ -3,10 +3,11 @@
     "target": "es5",
     "declaration": false,
     "noImplicitAny": true,
+    "module": "commonjs",
     "removeComments": true,
     "noLib": false,
-    "rootDir": "src/",
-    "out": "dst/_main.js"
+    "rootDir": "./src/",
+    "outDir": "./dst/"
   },
   "files": [
     "src/evaluator.ts",

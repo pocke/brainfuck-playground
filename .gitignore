@@ -1,3 +1,4 @@
 /node_modules/
 /typings/
 /dst/*.js
+/build/main.js

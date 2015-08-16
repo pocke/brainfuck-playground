@@ -4,6 +4,7 @@ var tsd        = require('gulp-tsd');
 var tsconfig   = require('gulp-tsconfig-files');
 var browserify = require('browserify');
 var source     = require('vinyl-source-stream');
+var glob       = require('glob');
 
 gulp.task('tsd', function (callback) {
   tsd({
@@ -18,15 +19,15 @@ gulp.task('ts', function () {
   return tsProject.src()
     .pipe(ts(tsProject))
     .js
-    .pipe(gulp.dest('./'));
+    .pipe(gulp.dest('./dst/'));
 });
 
 gulp.task('browserify', ['ts'] ,function () {
   return browserify({
-    entries: ['./dst/_main.js']
+    entries: glob.sync('./dst/**/*.js')
   }).bundle()
     .pipe(source('main.js'))
-    .pipe(gulp.dest('./dst/'));
+    .pipe(gulp.dest('./build/'));
 });
 
 gulp.task('watch', function () {

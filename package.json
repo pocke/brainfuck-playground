@@ -5,6 +5,8 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "browserify": "^11.0.1",
+    "glob": "^5.0.14",
     "gulp": "^3.9.0",
     "gulp-tsconfig-files": "icholy/gulp-tsconfig-files",
     "gulp-tsd": "0.0.4",
@@ -21,16 +23,15 @@
     "phantomjs": "^1.9.18",
     "power-assert": "^0.11.0",
     "tsd": "^0.6.3",
-    "typescript": "^1.5.3"
+    "typescript": "^1.5.3",
+    "vinyl-source-stream": "^1.1.0"
   },
   "scripts": {
     "test": "./node_modules/karma/bin/karma start --single-run --browsers PhantomJS,Firefox"
   },
   "dependencies": {
     "bootstrap": "^3.3.5",
-    "browserify": "^11.0.1",
     "lodash": "^3.10.1",
-    "vinyl-source-stream": "^1.1.0",
     "vue": "^0.12.10"
   }
 }
