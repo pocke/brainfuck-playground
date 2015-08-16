@@ -28,7 +28,9 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.5",
+    "browserify": "^11.0.1",
     "lodash": "^3.10.1",
+    "vinyl-source-stream": "^1.1.0",
     "vue": "^0.12.10"
   }
 }

@@ -6,7 +6,7 @@
     "removeComments": true,
     "noLib": false,
     "rootDir": "src/",
-    "out": "dst/main.js"
+    "out": "dst/_main.js"
   },
   "files": [
     "src/evaluator.ts",
