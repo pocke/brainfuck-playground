@@ -30,6 +30,14 @@ gulp.task('browserify', ['ts'] ,function () {
     .pipe(gulp.dest('./build/'));
 });
 
+gulp.task('browserify-test', ['ts'], function () {
+  return browserify({
+    entries: glob.sync('./dst/test/**/*.js')
+  }).bundle()
+    .pipe(source('test.js'))
+    .pipe(gulp.dest('./build/'));
+});
+
 gulp.task('watch', function () {
   gulp.watch('./src/**/*.ts', ['browserify']);
 });
