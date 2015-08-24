@@ -1,21 +1,24 @@
-/// <reference path="../typings/tsd.d.ts" />
-/// <reference path="../src/language.ts" />
+import * as mocha from "mocha";
+import * as assert from "power-assert";
+
+import * as la from "../src/language";
+
 
 describe('Language', () => {
   describe('#LanguageToArray', () => {
     it('should be eq', () => {
-      const lang = Brainfuck.DEFAULT_LANGUAGE;
-      assert.deepEqual(Brainfuck.LanguageToArray(lang), ['>', '<', '+', '-', '.', ',', '[', ']']);
+      const lang = la.DEFAULT_LANGUAGE;
+      assert.deepEqual(la.LanguageToArray(lang), ['>', '<', '+', '-', '.', ',', '[', ']']);
     });
   });
 
   describe('#LnaguageValidate', () => {
     it('should not throw error', () => {
-      Brainfuck.LanguageValidate(Brainfuck.DEFAULT_LANGUAGE);
+      la.LanguageValidate(la.DEFAULT_LANGUAGE);
     });
 
     it('should throw error', () => {
-      const lang: Brainfuck.Language = {
+      const lang: la.Language = {
         incPtr: 'a',
         decPtr: 'b',
         incByte: 'c',
@@ -26,13 +29,13 @@ describe('Language', () => {
         jumpBack: 'a',
       };
       try {
-        Brainfuck.LanguageValidate(lang);
+        la.LanguageValidate(lang);
       } catch (e) { return; }
       throw new Error('Not got error!');
     });
 
     it('should raise error', () => {
-      const lang: Brainfuck.Language = {
+      const lang: la.Language = {
         incPtr: 'a',
         decPtr: 'b',
         incByte: 'c',
@@ -43,7 +46,7 @@ describe('Language', () => {
         jumpBack: 'aaa',
       };
       try {
-        Brainfuck.LanguageValidate(lang);
+        la.LanguageValidate(lang);
       } catch (e) { return; }
       throw new Error('Not got error!');
     });
@@ -51,14 +54,14 @@ describe('Language', () => {
 
   describe('#LanguageToken', () => {
     it('should be eq', () => {
-      assert(Brainfuck.LanguageToken(Brainfuck.DEFAULT_LANGUAGE, '>') === Brainfuck.Token.incPtr);
-      assert(Brainfuck.LanguageToken(Brainfuck.DEFAULT_LANGUAGE, '<') === Brainfuck.Token.decPtr);
-      assert(Brainfuck.LanguageToken(Brainfuck.DEFAULT_LANGUAGE, '+') === Brainfuck.Token.incByte);
-      assert(Brainfuck.LanguageToken(Brainfuck.DEFAULT_LANGUAGE, '-') === Brainfuck.Token.decByte);
-      assert(Brainfuck.LanguageToken(Brainfuck.DEFAULT_LANGUAGE, '.') === Brainfuck.Token.output);
-      assert(Brainfuck.LanguageToken(Brainfuck.DEFAULT_LANGUAGE, ',') === Brainfuck.Token.input);
-      assert(Brainfuck.LanguageToken(Brainfuck.DEFAULT_LANGUAGE, '[') === Brainfuck.Token.jumpForward);
-      assert(Brainfuck.LanguageToken(Brainfuck.DEFAULT_LANGUAGE, ']') === Brainfuck.Token.jumpBack);
+      assert(la.LanguageToken(la.DEFAULT_LANGUAGE, '>') === la.Token.incPtr);
+      assert(la.LanguageToken(la.DEFAULT_LANGUAGE, '<') === la.Token.decPtr);
+      assert(la.LanguageToken(la.DEFAULT_LANGUAGE, '+') === la.Token.incByte);
+      assert(la.LanguageToken(la.DEFAULT_LANGUAGE, '-') === la.Token.decByte);
+      assert(la.LanguageToken(la.DEFAULT_LANGUAGE, '.') === la.Token.output);
+      assert(la.LanguageToken(la.DEFAULT_LANGUAGE, ',') === la.Token.input);
+      assert(la.LanguageToken(la.DEFAULT_LANGUAGE, '[') === la.Token.jumpForward);
+      assert(la.LanguageToken(la.DEFAULT_LANGUAGE, ']') === la.Token.jumpBack);
     });
   });
 });

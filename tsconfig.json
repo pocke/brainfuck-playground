@@ -6,13 +6,16 @@
     "module": "commonjs",
     "removeComments": true,
     "noLib": false,
-    "rootDir": "./src/",
+    "rootDir": "./",
     "outDir": "./dst/"
   },
   "files": [
     "src/evaluator.ts",
     "src/language.ts",
     "src/parser.ts",
-    "src/ui.ts"
+    "src/ui.ts",
+    "test/evaluator_test.ts",
+    "test/language_test.ts",
+    "test/parser_test.ts"
   ]
 }

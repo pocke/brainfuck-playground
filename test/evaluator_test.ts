@@ -1,6 +1,8 @@
-/// <reference path="../typings/tsd.d.ts" />
-/// <reference path="../src/parser.ts" />
-/// <reference path="../src/evaluator.ts" />
+import * as mocha from "mocha";
+import * as assert from "power-assert";
+
+import Evaluator from "../src/evaluator";
+import * as parser from "../src/parser";
 
 describe('Evaluator', () => {
   describe('#eval', () => {
@@ -9,9 +11,9 @@ describe('Evaluator', () => {
       const program = '+++++++++[>++++++++>+++++++++++>+++++<<<-]>.>++.+++++++..+++.>-.------------.<++++++++.--------.+++.------.--------.>+.';
       /* tslint:enable */
       it('should output hello world', () => {
-        const p = new Brainfuck.Parser();
+        const p = new parser.Parser();
         const prog = p.parse(program);
-        const e = new Brainfuck.Evaluator(prog);
+        const e = new Evaluator(prog);
         const out = e.eval([]);
 
         assert(String.fromCharCode(...out) === 'Hello, world!');
