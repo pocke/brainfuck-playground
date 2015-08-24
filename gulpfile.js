@@ -24,7 +24,7 @@ gulp.task('ts', function () {
 
 gulp.task('browserify', ['ts'] ,function () {
   return browserify({
-    entries: glob.sync('./dst/**/*.js')
+    entries: glob.sync('./dst/src/**/*.js')
   }).bundle()
     .pipe(source('main.js'))
     .pipe(gulp.dest('./build/'));
@@ -35,7 +35,7 @@ gulp.task('watch', function () {
 });
 
 gulp.task('tsconfig', function () {
-  return gulp.src(['src/**/*.ts'])
+  return gulp.src(['src/**/*.ts', 'test/**/*.ts'])
     .pipe(tsconfig({newline_eof: true}));
 });
 
