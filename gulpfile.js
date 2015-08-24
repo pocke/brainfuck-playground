@@ -5,6 +5,7 @@ var tsconfig   = require('gulp-tsconfig-files');
 var browserify = require('browserify');
 var source     = require('vinyl-source-stream');
 var glob       = require('glob');
+var espower    = require('gulp-espower');
 
 gulp.task('tsd', function (callback) {
   tsd({
@@ -19,6 +20,7 @@ gulp.task('ts', function () {
   return tsProject.src()
     .pipe(ts(tsProject))
     .js
+    .pipe(espower())
     .pipe(gulp.dest('./dst/'));
 });
 
@@ -39,7 +41,7 @@ gulp.task('browserify-test', ['ts'], function () {
 });
 
 gulp.task('watch', function () {
-  gulp.watch('./src/**/*.ts', ['browserify']);
+  gulp.watch('./+(src|test)/**/*.ts', ['browserify', 'browserify-test']);
 });
 
 gulp.task('tsconfig', function () {
@@ -47,4 +49,4 @@ gulp.task('tsconfig', function () {
     .pipe(tsconfig({newline_eof: true}));
 });
 
-gulp.task('default', ['tsconfig', 'browserify', 'watch']);
+gulp.task('default', ['tsconfig', 'browserify', 'browserify-test','watch']);
