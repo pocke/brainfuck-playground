@@ -16,6 +16,7 @@
     "src/ui.ts",
     "test/evaluator_test.ts",
     "test/language_test.ts",
-    "test/parser_test.ts"
+    "test/parser_test.ts",
+    "test/ui_test.ts"
   ]
 }

@@ -6,8 +6,8 @@ import Evaluator from './evaluator';
 
 import Vue = require('vue');
 
-class MainVM extends Vue {
-  private output:  string;
+export class MainVM extends Vue {
+  public output:  string;
 
 
   constructor(private program: string, private lang: la.Language = la.DEFAULT_LANGUAGE, private input: string = "") {
@@ -91,4 +91,5 @@ const helloWorld = `This program is hello world
 ------------.<++++++++.--------.+++.------.--------.>+.`;
 
 const vm = new MainVM(helloWorld);
+
 console.log(vm);
