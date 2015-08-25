@@ -8,7 +8,7 @@ describe('Language', () => {
   describe('#LanguageToArray', () => {
     it('should be eq', () => {
       const lang = la.DEFAULT_LANGUAGE;
-      assert.deepEqual(la.LanguageToArray(lang), ['>', '<', '+', '-', '.', ',', '[', ']']);
+      assert.deepEqual(la.LanguageToArray(lang).sort(), ['>', '<', '+', '-', '.', ',', '[', ']'].sort());
     });
   });
 
