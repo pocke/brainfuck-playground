@@ -57,12 +57,20 @@ class Data {
   }
 }
 
+class EvaluateTimeout implements Error {
+  public name: string;
+
+  constructor(public message: string) {
+    this.name = 'EvaluateTimeout';
+  }
+}
+
 export default class Evaluator {
   private data: Data;
   private pos: number;
   private posStack: number[];
 
-  constructor(private program: la.Token[]) {
+  constructor(private program: la.Token[], private timeout = 1000) {
     this.data = new Data();
     this.pos  = 0;
     this.posStack = [];
@@ -71,7 +79,7 @@ export default class Evaluator {
   eval(input: number[]): number[] {
     let out: number[] = [];
     let cnt = 0;
-    while (this.pos < this.program.length && cnt < 1000) {
+    while (this.pos < this.program.length) {
       const tok = this.tok();
       switch (tok) {
         case la.Token.incPtr:      this.data.incP();             break;
@@ -85,6 +93,8 @@ export default class Evaluator {
       }
       this.pos++;
       cnt++;
+
+      if (cnt > this.timeout) { throw new EvaluateTimeout("Timeout"); }
     }
     return out;
   }
