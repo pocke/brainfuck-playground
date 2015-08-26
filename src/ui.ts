@@ -58,6 +58,13 @@ export class MainVM extends Vue {
     history.pushState(null, null, url);
   }
 
+  tweet(): void {
+    this.updatePermalink();
+    const lo = encodeURIComponent(location.href);
+    const url = `https://twitter.com/intent/tweet?hashtags=BrainfuckPlayground&original_referer=&tw_p=tweetbutton&url=${lo}`;
+    window.open(url);
+  }
+
 
   // computeds
 

@@ -31,6 +31,7 @@
       <div class="alert alert-danger" v-if="parseError" v-text="parseError"></div>
       <button class="btn btn-primary btn-lg" v-attr="disabled: hasError" v-on="click: run()">Run</button>
       <button class="btn btn-success btn-lg" v-on="click: updatePermalink()">Permalink</button>
+      <button class="btn btn-info    btn-lg" v-on="click: tweet()">Tweet</button>
     </div>
 
     <div class="col-xs-6">
