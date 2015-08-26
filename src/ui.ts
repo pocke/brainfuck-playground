@@ -11,11 +11,14 @@ import * as qs from 'query-string';
 export class MainVM extends Vue {
   public  output:    string;
   private evalError: string;
+  private timeout:   number;
 
 
   constructor(private program: string, private lang: la.Language = la.DEFAULT_LANGUAGE, private input: string = "") {
     super();
     this.evalError = "";
+    this.timeout = 10000;
+
     this._init({
       el: '#vue-main',
       data: {
@@ -43,9 +46,11 @@ export class MainVM extends Vue {
   run(): void {
     this.output = "";
     this.evalError = "";
+
     const tok = this.parse();
-    const e = new Evaluator(tok);
-    let bytes: number[] = [];
+    const e = new Evaluator(tok, this.timeout);
+
+    const bytes: number[] = [];
     for (let i = 0; i < this.input.length; ++i) {
       bytes.push(this.input.charCodeAt(i));
     }
