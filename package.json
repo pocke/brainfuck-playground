@@ -30,6 +30,7 @@
   "dependencies": {
     "bootstrap": "^3.3.5",
     "lodash": "^3.10.1",
+    "query-string": "^2.4.0",
     "vue": "^0.12.10"
   }
 }
