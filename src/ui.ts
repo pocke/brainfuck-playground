@@ -1,10 +1,12 @@
 /// <reference path="../typings/tsd.d.ts" />
+/// <reference path="../query-string.d.ts" />
 
 import * as la from './language';
 import * as parser from './parser';
 import Evaluator from './evaluator';
 
 import Vue = require('vue');
+import * as qs from 'query-string';
 
 export class MainVM extends Vue {
   public output:  string;
@@ -85,6 +87,33 @@ export class MainVM extends Vue {
   }
 }
 
+export interface QueryString {
+  program?: string;
+  lang?:    la.Language;
+  input?:   string;
+}
+
+export function ParseQueryString(se = location.search): QueryString {
+  const obj = qs.parse(se);
+  let lang: la.Language;
+  if (obj.lang) {
+    lang = <la.Language>JSON.parse(obj.lang);
+  }
+
+  return {
+    program: obj.program,
+    lang:    lang,
+    input:   obj.input,
+  };
+}
+
+export function StringifyQueryString(q: QueryString): string {
+  const obj: any = {};
+  obj.program = q.program;
+  obj.input   = q.input;
+  obj.lang = JSON.stringify(q.lang);
+  return qs.stringify(obj);
+}
 
 const helloWorld = `This program is hello world
 +++++++++[>++++++++>+++++++++++>+++++<<<-]>.>++.+++++++..+++.>-.
