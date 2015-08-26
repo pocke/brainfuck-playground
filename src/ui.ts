@@ -9,18 +9,21 @@ import Vue = require('vue');
 import * as qs from 'query-string';
 
 export class MainVM extends Vue {
-  public output:  string;
+  public  output:    string;
+  private evalError: string;
 
 
   constructor(private program: string, private lang: la.Language = la.DEFAULT_LANGUAGE, private input: string = "") {
     super();
+    this.evalError = "";
     this._init({
       el: '#vue-main',
       data: {
-        program: this.program,
-        input:   this.input,
-        output:  this.output,
-        lang:    this.lang,
+        program:   this.program,
+        input:     this.input,
+        output:    this.output,
+        lang:      this.lang,
+        evalError: this.evalError,
       },
       methods: {
         run: this.run,
@@ -38,14 +41,21 @@ export class MainVM extends Vue {
   // methods
 
   run(): void {
+    this.output = "";
+    this.evalError = "";
     const tok = this.parse();
     const e = new Evaluator(tok);
     let bytes: number[] = [];
     for (let i = 0; i < this.input.length; ++i) {
       bytes.push(this.input.charCodeAt(i));
     }
-    const out = e.eval(bytes);
-    this.output = String.fromCharCode(...out);
+
+    try {
+      const out = e.eval(bytes);
+      this.output = String.fromCharCode(...out);
+    } catch (e) {
+      this.evalError = (<Error>e).message;
+    }
   }
 
   updatePermalink(): void {

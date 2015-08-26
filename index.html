@@ -54,7 +54,8 @@
 
     <div class="col-xs-12">
       <h3>Output</h3>
-      <pre><code v-text="output"></code></pre>
+      <pre v-if="!evalError"><code v-text="output"></code></pre>
+      <div class="alert alert-danger" v-if="evalError" v-text="evalError"></div>
     </div>
 
   </div>
