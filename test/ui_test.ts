@@ -18,6 +18,17 @@ describe('MainVM', () => {
       assert(vm.output === "Hello, world!");
     });
   });
+
+  describe('#updateParmalink', () => {
+    it('should generate permalink', () => {
+      const vm = new UI.MainVM(
+        `+++++++++[>++++++++>+++++++++++>+++++<<<-]>.>++.+++++++..+++.>-.
+        ------------.<++++++++.--------.+++.------.--------.>+.`
+      );
+      vm.updateParmalink();
+      assert(location.search !== "");
+    });
+  });
 });
 
 describe('ParseQueryString and StringifyQueryString', () => {

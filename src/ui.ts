@@ -24,6 +24,7 @@ export class MainVM extends Vue {
       },
       methods: {
         run: this.run,
+        updateParmalink: this.updateParmalink,
       },
       computed: {
         parseError:       this._parseError,
@@ -45,6 +46,16 @@ export class MainVM extends Vue {
     }
     const out = e.eval(bytes);
     this.output = String.fromCharCode(...out);
+  }
+
+  updateParmalink(): void {
+    const q = {
+      program: this.program,
+      lang:    this.lang,
+      input:   this.input,
+    };
+    const url = `${location.protocol}//${location.host}${location.pathname}?${StringifyQueryString(q)}`;
+    history.pushState(null, null, url);
   }
 
 
@@ -119,6 +130,9 @@ const helloWorld = `This program is hello world
 +++++++++[>++++++++>+++++++++++>+++++<<<-]>.>++.+++++++..+++.>-.
 ------------.<++++++++.--------.+++.------.--------.>+.`;
 
-const vm = new MainVM(helloWorld);
+const q = ParseQueryString();
+const prog = q.program || helloWorld;
+
+const vm = new MainVM(prog, q.lang, q.input);
 
 console.log(vm);

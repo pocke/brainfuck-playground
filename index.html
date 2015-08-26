@@ -26,6 +26,7 @@
       <textarea class="form-control" rows="10" v-model="program"></textarea>
       <div class="alert alert-danger" v-if="parseError" v-text="parseError"></div>
       <button class="btn btn-primary btn-lg" v-attr="disabled: hasError" v-on="click: run()">Run</button>
+      <button class="btn btn-success btn-lg" v-on="click: updateParmalink()">Permalink</button>
     </div>
 
     <div class="col-xs-6">
@@ -50,6 +51,7 @@
       <h3>Output</h3>
       <pre><code v-text="output"></code></pre>
     </div>
+
   </div>
 </div>
 
