@@ -39,7 +39,8 @@ describe('ParseQueryString and StringifyQueryString', () => {
       input:   'piyo',
     };
     const se = UI.StringifyQueryString(q);
-    const parsed = UI.ParseQueryString(se);
+    history.pushState(null, null, `${location.protocol}//${location.host}${location.pathname}?${se}`);
+    const parsed = UI.ParseQueryString();
     assert.deepEqual(q, parsed);
   });
 });

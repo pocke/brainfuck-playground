@@ -104,8 +104,8 @@ export interface QueryString {
   input?:   string;
 }
 
-export function ParseQueryString(se = location.search): QueryString {
-  const obj = qs.parse(se);
+export function ParseQueryString(): QueryString {
+  const obj = qs.parse(location.search);
   let lang: la.Language;
   if (obj.lang) {
     lang = <la.Language>JSON.parse(obj.lang);
