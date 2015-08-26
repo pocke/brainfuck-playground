@@ -24,7 +24,7 @@ export class MainVM extends Vue {
       },
       methods: {
         run: this.run,
-        updateParmalink: this.updateParmalink,
+        updatePermalink: this.updatePermalink,
       },
       computed: {
         parseError:       this._parseError,
@@ -48,7 +48,7 @@ export class MainVM extends Vue {
     this.output = String.fromCharCode(...out);
   }
 
-  updateParmalink(): void {
+  updatePermalink(): void {
     const q = {
       program: this.program,
       lang:    this.lang,

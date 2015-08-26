@@ -19,13 +19,13 @@ describe('MainVM', () => {
     });
   });
 
-  describe('#updateParmalink', () => {
+  describe('#updatePermalink', () => {
     it('should generate permalink', () => {
       const vm = new UI.MainVM(
         `+++++++++[>++++++++>+++++++++++>+++++<<<-]>.>++.+++++++..+++.>-.
         ------------.<++++++++.--------.+++.------.--------.>+.`
       );
-      vm.updateParmalink();
+      vm.updatePermalink();
       assert(location.search !== "");
     });
   });
