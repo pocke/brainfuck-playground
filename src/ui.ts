@@ -54,7 +54,8 @@ export class MainVM extends Vue {
       lang:    this.lang,
       input:   this.input,
     };
-    const url = `${location.protocol}//${location.host}${location.pathname}?${StringifyQueryString(q)}`;
+    const se = StringifyQueryString(q).replace(/\./g, '%2E');
+    const url = `${location.protocol}//${location.host}${location.pathname}?${se}`;
     history.pushState(null, null, url);
   }
 
