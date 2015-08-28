@@ -5,7 +5,7 @@ import Vue = require('vue');
 
 import * as UI from "../src/ui";
 import * as la from '../src/language';
-import ByteFilter from "../src/filters/bytes";
+import BytesFilter from "../src/filters/bytes";
 
 
 describe('MainVM', () => {
@@ -16,7 +16,7 @@ describe('MainVM', () => {
         ------------.<++++++++.--------.+++.------.--------.>+.`
       );
       vm.run();
-      assert.deepEqual(ByteFilter.read(vm.output), "Hello, world!");
+      assert.deepEqual(BytesFilter.read(vm.output), "Hello, world!");
     });
   });
 
