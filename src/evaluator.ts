@@ -70,26 +70,26 @@ export default class Evaluator {
   private pos: number;
   private posStack: number[];
 
-  constructor(private program: la.Token[], private timeout = 1000) {
+  constructor(private program: la.Token[], private input: number[], private timeout = 1000) {
     this.data = new Data();
     this.pos  = 0;
     this.posStack = [];
   };
 
-  eval(input: number[]): number[] {
+  eval(): number[] {
     let out: number[] = [];
     let cnt = 0;
     while (this.pos < this.program.length) {
       const tok = this.tok();
       switch (tok) {
-        case la.Token.incPtr:      this.data.incP();             break;
-        case la.Token.decPtr:      this.data.decP();             break;
-        case la.Token.incByte:     this.data.incB();             break;
-        case la.Token.decByte:     this.data.decB();             break;
-        case la.Token.output:      out.push(this.data.get());    break;
-        case la.Token.input:       this.data.set(input.shift()); break;
-        case la.Token.jumpForward: this.jumpForward();           break;
-        case la.Token.jumpBack:    this.jumpBack();              break;
+        case la.Token.incPtr:      this.data.incP();          break;
+        case la.Token.decPtr:      this.data.decP();          break;
+        case la.Token.incByte:     this.data.incB();          break;
+        case la.Token.decByte:     this.data.decB();          break;
+        case la.Token.output:      out.push(this.data.get()); break;
+        case la.Token.input:       this.loadInput();          break;
+        case la.Token.jumpForward: this.jumpForward();        break;
+        case la.Token.jumpBack:    this.jumpBack();           break;
       }
       this.pos++;
       cnt++;
@@ -109,6 +109,10 @@ export default class Evaluator {
 
   private jumpBack(): void {
     this.pos = this.posStack.pop() - 1;
+  }
+
+  private loadInput(): void {
+    this.data.set(this.input.shift());
   }
 
   private tok(): la.Token {

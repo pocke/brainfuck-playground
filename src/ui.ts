@@ -50,15 +50,15 @@ export class MainVM extends Vue {
     this.evalError = "";
 
     const tok = this.parse();
-    const e = new Evaluator(tok, this.timeout);
-
     const bytes: number[] = [];
     for (let i = 0; i < this.input.length; ++i) {
       bytes.push(this.input.charCodeAt(i));
     }
 
+    const e = new Evaluator(tok, bytes, this.timeout);
+
     try {
-      const out = e.eval(bytes);
+      const out = e.eval();
       this.output = String.fromCharCode(...out);
     } catch (e) {
       this.evalError = (<Error>e).message;
