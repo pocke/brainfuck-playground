@@ -12,6 +12,7 @@ export class MainVM extends Vue {
   public  output:    string;
   private evalError: string;
   private timeout:   number;
+  private isStep:    boolean;
 
 
   constructor(private program: string, private lang: la.Language = la.DEFAULT_LANGUAGE, private input: string = "") {
@@ -27,6 +28,7 @@ export class MainVM extends Vue {
         output:    this.output,
         lang:      this.lang,
         evalError: this.evalError,
+        isStep:    this.isStep,
       },
       methods: {
         run: this.run,
