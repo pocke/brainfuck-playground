@@ -18,8 +18,8 @@ export class Parser {
   }
 
   parse(programStr: string): la.Token[] {
-    let program: la.Token[] = [];
-    let lang = la.LanguageToArray(this.lang);
+    const program: la.Token[] = [];
+    const lang = la.LanguageToArray(this.lang);
     let tok = "";
 
     for (let i = 0; i < programStr.length; ++i) {
