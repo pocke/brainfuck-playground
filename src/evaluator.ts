@@ -78,24 +78,32 @@ export default class Evaluator {
     this.count = 0;
   };
 
+  step(): number {
+    let res: number = null;
+
+    const tok = this.tok();
+    switch (tok) {
+      case la.Token.incPtr:      this.data.incP();      break;
+      case la.Token.decPtr:      this.data.decP();      break;
+      case la.Token.incByte:     this.data.incB();      break;
+      case la.Token.decByte:     this.data.decB();      break;
+      case la.Token.output:      res = this.data.get(); break;
+      case la.Token.input:       this.loadInput();      break;
+      case la.Token.jumpForward: this.jumpForward();    break;
+      case la.Token.jumpBack:    this.jumpBack();       break;
+    }
+    this.pos++;
+    this.count++;
+
+    if (this.count > this.timeout) { throw new EvaluateTimeout("Timeout"); }
+    return res;
+  }
+
   eval(): number[] {
     const out: number[] = [];
-    while (this.pos < this.program.length) {
-      const tok = this.tok();
-      switch (tok) {
-        case la.Token.incPtr:      this.data.incP();          break;
-        case la.Token.decPtr:      this.data.decP();          break;
-        case la.Token.incByte:     this.data.incB();          break;
-        case la.Token.decByte:     this.data.decB();          break;
-        case la.Token.output:      out.push(this.data.get()); break;
-        case la.Token.input:       this.loadInput();          break;
-        case la.Token.jumpForward: this.jumpForward();        break;
-        case la.Token.jumpBack:    this.jumpBack();           break;
-      }
-      this.pos++;
-      this.count++;
-
-      if (this.count > this.timeout) { throw new EvaluateTimeout("Timeout"); }
+    while (!this.endOfProgram()) {
+      const o = this.step();
+      if (o != null) { out.push(o); }
     }
     return out;
   }
@@ -118,5 +126,9 @@ export default class Evaluator {
 
   private tok(): la.Token {
     return this.program[this.pos];
+  }
+
+  private endOfProgram(): boolean {
+    return this.program.length <= this.pos;
   }
 }
