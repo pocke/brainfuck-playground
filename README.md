@@ -10,6 +10,7 @@ $ cd brainfuck-web
 $ npm i
 $ gulp tsd
 $ gulp ts
+$ gulp browserify
 ```
 
 
