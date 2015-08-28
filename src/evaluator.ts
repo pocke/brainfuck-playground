@@ -69,16 +69,17 @@ export default class Evaluator {
   private data: Data;
   private pos: number;
   private posStack: number[];
+  private count: number;
 
   constructor(private program: la.Token[], private input: number[], private timeout = 1000) {
     this.data = new Data();
     this.pos  = 0;
     this.posStack = [];
+    this.count = 0;
   };
 
   eval(): number[] {
-    let out: number[] = [];
-    let cnt = 0;
+    const out: number[] = [];
     while (this.pos < this.program.length) {
       const tok = this.tok();
       switch (tok) {
@@ -92,9 +93,9 @@ export default class Evaluator {
         case la.Token.jumpBack:    this.jumpBack();           break;
       }
       this.pos++;
-      cnt++;
+      this.count++;
 
-      if (cnt > this.timeout) { throw new EvaluateTimeout("Timeout"); }
+      if (this.count > this.timeout) { throw new EvaluateTimeout("Timeout"); }
     }
     return out;
   }

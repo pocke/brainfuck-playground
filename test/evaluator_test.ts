@@ -29,5 +29,16 @@ describe('Evaluator', () => {
         assert.deepEqual(e.eval(), [66]);
       });
     });
+
+    context('when timeout', () => {
+      const program = '+[.]'; // infinite loop
+
+      it('should throw an error', () => {
+        const p = new parser.Parser();
+        const prog = p.parse(program);
+        const e = new Evaluator(prog, []);
+        assert.throws(() => { e.eval(); });
+      });
+    });
   });
 });
