@@ -5,6 +5,7 @@ import Vue = require('vue');
 
 import * as UI from "../src/ui";
 import * as la from '../src/language';
+import ByteFilter from "../src/filters/bytes";
 
 
 describe('MainVM', () => {
@@ -15,7 +16,7 @@ describe('MainVM', () => {
         ------------.<++++++++.--------.+++.------.--------.>+.`
       );
       vm.run();
-      assert(vm.output === "Hello, world!");
+      assert.deepEqual(ByteFilter.read(vm.output), "Hello, world!");
     });
   });
 
@@ -36,7 +37,7 @@ describe('ParseQueryString and StringifyQueryString', () => {
     const q: UI.QueryString = {
       program: 'hoge',
       lang:    la.DEFAULT_LANGUAGE,
-      input:   'piyo',
+      input:   [65, 66, 67, 68],
     };
     const se = UI.StringifyQueryString(q);
     history.pushState(null, null, `${location.protocol}//${location.host}${location.pathname}?${se}`);

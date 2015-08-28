@@ -14,6 +14,7 @@
     "src/language.ts",
     "src/parser.ts",
     "src/ui.ts",
+    "src/filters/bytes.ts",
     "test/evaluator_test.ts",
     "test/language_test.ts",
     "test/parser_test.ts",

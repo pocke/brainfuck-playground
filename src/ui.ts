@@ -4,18 +4,19 @@
 import * as la from './language';
 import * as parser from './parser';
 import Evaluator from './evaluator';
+import BytesFilter from './filters/bytes';
 
 import Vue = require('vue');
 import * as qs from 'query-string';
 
 export class MainVM extends Vue {
-  public  output:    string;
+  public  output:    number[];
   private evalError: string;
   private timeout:   number;
   private isStep:    boolean;
 
 
-  constructor(private program: string, private lang: la.Language = la.DEFAULT_LANGUAGE, private input: string = "") {
+  constructor(private program: string, private lang: la.Language = la.DEFAULT_LANGUAGE, private input: number[] = []) {
     super();
     this.evalError = "";
     this.timeout = 10000;
@@ -38,6 +39,9 @@ export class MainVM extends Vue {
         parseError:       this._parseError,
         invalidLangError: this._invalidLangError,
         hasError:         this._hasError,
+      },
+      filters: {
+        bytesFilter: BytesFilter,
       }
     });
   }
@@ -46,20 +50,14 @@ export class MainVM extends Vue {
   // methods
 
   run(): void {
-    this.output = "";
+    this.output = [];
     this.evalError = "";
 
     const tok = this.parse();
-    const bytes: number[] = [];
-    for (let i = 0; i < this.input.length; ++i) {
-      bytes.push(this.input.charCodeAt(i));
-    }
-
-    const e = new Evaluator(tok, bytes, this.timeout);
+    const e = new Evaluator(tok, this.input, this.timeout);
 
     try {
-      const out = e.eval();
-      this.output = String.fromCharCode(...out);
+      this.output = e.eval();
     } catch (e) {
       this.evalError = (<Error>e).message;
     }
@@ -116,7 +114,6 @@ export class MainVM extends Vue {
   }
 
 
-
   private parse(): la.Token[] {
     const c = new parser.Parser(this.lang);
     return c.parse(this.program);
@@ -126,28 +123,32 @@ export class MainVM extends Vue {
 export interface QueryString {
   program?: string;
   lang?:    la.Language;
-  input?:   string;
+  input?:   number[];
 }
 
 export function ParseQueryString(): QueryString {
   const obj = qs.parse(location.search);
   let lang: la.Language;
+  let input: number[];
   if (obj.lang) {
     lang = <la.Language>JSON.parse(obj.lang);
+  }
+  if (obj.input) {
+    input = <number[]>JSON.parse(obj.input);
   }
 
   return {
     program: obj.program,
     lang:    lang,
-    input:   obj.input,
+    input:   input,
   };
 }
 
 export function StringifyQueryString(q: QueryString): string {
   const obj: any = {};
   obj.program = q.program;
-  obj.input   = q.input;
-  obj.lang = JSON.stringify(q.lang);
+  obj.input   = JSON.stringify(q.input);
+  obj.lang    = JSON.stringify(q.lang);
   return qs.stringify(obj);
 }
 

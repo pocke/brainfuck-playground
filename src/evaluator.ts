@@ -1,5 +1,7 @@
 /// <reference path="../typings/tsd.d.ts" />
 
+import * as _ from 'lodash';
+
 import * as la from './language';
 
 class Data {
@@ -70,12 +72,14 @@ export default class Evaluator {
   private pos: number;
   private posStack: number[];
   private count: number;
+  private input: number[];
 
-  constructor(private program: la.Token[], private input: number[], private timeout = 1000) {
+  constructor(private program: la.Token[], input: number[], private timeout = 1000) {
     this.data = new Data();
     this.pos  = 0;
     this.posStack = [];
     this.count = 0;
+    this.input = _.clone(input);
   };
 
   step(): number {

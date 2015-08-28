@@ -43,7 +43,7 @@
 
     <div class="col-xs-6">
       <h3>Input</h3>
-      <input type="text" class="form-control" v-model="input">
+      <input type="text" class="form-control" v-model="input | bytesFilter">
 
       <h3>Timeout</h3>
       <input type="number" class="form-control" number v-model="timeout">
@@ -64,7 +64,7 @@
 
     <div class="col-xs-12">
       <h3>Output</h3>
-      <pre v-if="!evalError"><code v-text="output"></code></pre>
+      <pre v-if="!evalError"><code v-text="output | bytesFilter"></code></pre>
       <div class="alert alert-danger" v-if="evalError" v-text="evalError"></div>
     </div>
 
