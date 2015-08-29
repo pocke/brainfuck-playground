@@ -9,17 +9,15 @@ import BytesFilter from './filters/bytes';
 import Vue = require('vue');
 
 export class MainVM extends Vue {
-  public  output:    number[];
-  private evalError: string;
-  private timeout:   number;
-  private isStep:    boolean;
+  public  output: number[] = [];
+  private evalError        = "";
+  private timeout          = 10000;
+  private isStep           = false;
+  private evaluatorUpdated = false;
 
 
   constructor(private program: string, private lang: la.Language = la.DEFAULT_LANGUAGE, private input: number[] = []) {
     super();
-    this.evalError = "";
-    this.timeout = 10000;
-
     this._init({
       el: '#vue-main',
       data: {
@@ -45,17 +43,27 @@ export class MainVM extends Vue {
         bytesFilter: BytesFilter,
       }
     });
+
+    this.$watch('evaluator', () => {
+      this.evaluatorUpdated = true;
+    });
   }
 
 
   // methods
 
   run(): void {
-    this.output = [];
+    if (this.evaluatorUpdated) {
+      this.output = [];
+    }
     this.evalError = "";
 
     try {
-      this.output = this.evaluator.eval();
+      if (this.isStep) {
+        this.output.push(this.evaluator.step());
+      } else {
+        this.output.push(...this.evaluator.eval());
+      }
     } catch (e) {
       this.evalError = (<Error>e).message;
     }
