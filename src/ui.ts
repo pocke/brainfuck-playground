@@ -39,6 +39,7 @@ export class MainVM extends Vue {
         invalidLangError: this._invalidLangError,
         hasError:         this._hasError,
         tokens:           this._tokens,
+        evaluator:        this._evaluator,
       },
       filters: {
         bytesFilter: BytesFilter,
@@ -53,10 +54,8 @@ export class MainVM extends Vue {
     this.output = [];
     this.evalError = "";
 
-    const e = new Evaluator(this.tokens, this.input, this.timeout);
-
     try {
-      this.output = e.eval();
+      this.output = this.evaluator.eval();
     } catch (e) {
       this.evalError = (<Error>e).message;
     }
@@ -86,6 +85,11 @@ export class MainVM extends Vue {
   private tokens: la.Token[];
   _tokens(): la.Token[] {
     return this.parse();
+  }
+
+  private evaluator: Evaluator;
+  _evaluator(): Evaluator {
+    return new Evaluator(this.tokens, this.input, this.timeout);
   }
 
   private parseError: string;
