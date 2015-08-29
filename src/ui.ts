@@ -1,13 +1,12 @@
 /// <reference path="../typings/tsd.d.ts" />
-/// <reference path="../query-string.d.ts" />
 
-import * as la from './language';
+import * as la     from './language';
 import * as parser from './parser';
-import Evaluator from './evaluator';
+import * as qs     from './query_string';
+import Evaluator   from './evaluator';
 import BytesFilter from './filters/bytes';
 
 import Vue = require('vue');
-import * as qs from 'query-string';
 
 export class MainVM extends Vue {
   public  output:    number[];
@@ -69,7 +68,7 @@ export class MainVM extends Vue {
       lang:    this.lang,
       input:   this.input,
     };
-    const se = StringifyQueryString(q).replace(/\./g, '%2E');
+    const se = qs.Stringify(q).replace(/\./g, '%2E');
     const url = `${location.protocol}//${location.host}${location.pathname}?${se}`;
     history.pushState(null, null, url);
   }
@@ -120,43 +119,12 @@ export class MainVM extends Vue {
   }
 }
 
-export interface QueryString {
-  program?: string;
-  lang?:    la.Language;
-  input?:   number[];
-}
-
-export function ParseQueryString(): QueryString {
-  const obj = qs.parse(location.search);
-  let lang: la.Language;
-  let input: number[];
-  if (obj.lang) {
-    lang = <la.Language>JSON.parse(obj.lang);
-  }
-  if (obj.input) {
-    input = <number[]>JSON.parse(obj.input);
-  }
-
-  return {
-    program: obj.program,
-    lang:    lang,
-    input:   input,
-  };
-}
-
-export function StringifyQueryString(q: QueryString): string {
-  const obj: any = {};
-  obj.program = q.program;
-  obj.input   = JSON.stringify(q.input);
-  obj.lang    = JSON.stringify(q.lang);
-  return qs.stringify(obj);
-}
 
 const helloWorld = `This program is hello world
 +++++++++[>++++++++>+++++++++++>+++++<<<-]>.>++.+++++++..+++.>-.
 ------------.<++++++++.--------.+++.------.--------.>+.`;
 
-const q = ParseQueryString();
+const q = qs.Parse();
 const prog = q.program || helloWorld;
 
 const vm = new MainVM(prog, q.lang, q.input);
