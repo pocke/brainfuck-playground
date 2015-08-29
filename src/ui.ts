@@ -14,6 +14,7 @@ export class MainVM extends Vue {
   private timeout          = 10000;
   private isStep           = false;
   private evaluatorUpdated = false;
+  private count            = 0;
 
 
   constructor(private program: string, private lang: la.Language = la.DEFAULT_LANGUAGE, private input: number[] = []) {
@@ -27,6 +28,7 @@ export class MainVM extends Vue {
         lang:      this.lang,
         evalError: this.evalError,
         isStep:    this.isStep,
+        count:     this.count,
       },
       methods: {
         run: this.run,
@@ -55,6 +57,7 @@ export class MainVM extends Vue {
   run(): void {
     if (this.evaluatorUpdated) {
       this.output = [];
+      this.evaluatorUpdated = false;
     }
     this.evalError = "";
 
@@ -67,6 +70,7 @@ export class MainVM extends Vue {
     } catch (e) {
       this.evalError = (<Error>e).message;
     }
+    this.count = this.evaluator.count;
   }
 
   updatePermalink(): void {

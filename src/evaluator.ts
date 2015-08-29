@@ -68,11 +68,12 @@ class EvaluateTimeout implements Error {
 }
 
 export default class Evaluator {
-  private data: Data;
-  private pos: number;
   private posStack: number[];
-  private count: number;
   private input: number[];
+
+  public data: Data;
+  public count: number;
+  public pos: number;
 
   constructor(private program: la.Token[], input: number[], private timeout = 1000) {
     this.data = new Data();

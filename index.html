@@ -67,6 +67,9 @@
       <pre v-if="!evalError"><code v-text="output | bytesFilter"></code></pre>
       <div class="alert alert-danger" v-if="evalError" v-text="evalError"></div>
     </div>
+    <div class="col-xs-12">
+      step: {{count}}
+    </div>
 
   </div>
 </div>
