@@ -15,18 +15,14 @@ class EvaluateTimeout implements Error {
 }
 
 export default class Evaluator {
-  private posStack: number[];
+  private posStack: number[] = [];
   private input: number[];
 
-  public data: Memory;
-  public count: number;
-  public pos: number;
+  public data  = new Memory();
+  public count = 0;
+  public pos   = 0;
 
   constructor(private program: la.Token[], input: number[], private timeout = 1000) {
-    this.data = new Memory();
-    this.pos  = 0;
-    this.posStack = [];
-    this.count = 0;
     this.input = _.clone(input);
   };
 
