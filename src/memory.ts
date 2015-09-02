@@ -1,11 +1,13 @@
 /// <reference path="../typings/tsd.d.ts" />
 
 export default class Memory {
-  public memory: number[];
+  public memory: Uint8Array;
   public pos = 0;
 
   constructor() {
-    this.memory = new Array(30000);
+    const buf = new ArrayBuffer(30000);
+
+    this.memory = new Uint8Array(buf);
     for (let i = 0; i < this.memory.length; ++i) {
       this.memory[i] = 0;
     }
@@ -27,29 +29,8 @@ export default class Memory {
     }
   }
 
-  incB(): void {
-    const v = this.memory[this.pos];
-    if (v === 255) {
-      this.memory[this.pos] = 0;
-    } else {
-      this.memory[this.pos] = v + 1;
-    }
-  }
-
-  decB(): void {
-    const v = this.memory[this.pos];
-    if (v === 0) {
-      this.memory[this.pos] = 255;
-    } else {
-      this.memory[this.pos] = v - 1;
-    }
-  }
-
-  get(): number {
-    return this.memory[this.pos];
-  }
-
-  set(b: number): void {
-    this.memory[this.pos] = b;
-  }
+  incB(): void { this.memory[this.pos]++; }
+  decB(): void { this.memory[this.pos]--; }
+  get(): number { return this.memory[this.pos]; }
+  set(b: number): void { this.memory[this.pos] = b; }
 }
