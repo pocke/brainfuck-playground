@@ -102,7 +102,7 @@ export class MainVM extends Vue {
     return this.evaluator.data.memory[idx];
   }
 
-  isMemoryPos(pos: number): bool {
+  isMemoryPos(pos: number): boolean {
     const _ = this.count;
     return this.evaluator.data.pos === pos;
   }
