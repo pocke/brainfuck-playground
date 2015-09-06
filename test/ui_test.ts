@@ -5,6 +5,7 @@ import Vue = require('vue');
 
 import * as UI from "../src/ui";
 import * as la from '../src/language';
+import BytesFilter from "../src/filters/bytes";
 
 
 describe('MainVM', () => {
@@ -15,7 +16,7 @@ describe('MainVM', () => {
         ------------.<++++++++.--------.+++.------.--------.>+.`
       );
       vm.run();
-      assert(vm.output === "Hello, world!");
+      assert.deepEqual(BytesFilter.read(vm.output), "Hello, world!");
     });
   });
 
@@ -29,18 +30,13 @@ describe('MainVM', () => {
       assert(location.search !== "");
     });
   });
-});
 
-describe('ParseQueryString and StringifyQueryString', () => {
-  it('should parse', () => {
-    const q: UI.QueryString = {
-      program: 'hoge',
-      lang:    la.DEFAULT_LANGUAGE,
-      input:   'piyo',
-    };
-    const se = UI.StringifyQueryString(q);
-    history.pushState(null, null, `${location.protocol}//${location.host}${location.pathname}?${se}`);
-    const parsed = UI.ParseQueryString();
-    assert.deepEqual(q, parsed);
+  describe('#toHex', () => {
+    it('should be hex', () => {
+      const vm = new UI.MainVM("");
+      assert(vm.toHex(0) === "0x00");
+      assert(vm.toHex(10) === "0x0a");
+      assert(vm.toHex(255) === "0xff");
+    });
   });
 });

@@ -1,42 +1,58 @@
 /// <reference path="../typings/tsd.d.ts" />
-/// <reference path="../query-string.d.ts" />
 
-import * as la from './language';
+import * as la     from './language';
 import * as parser from './parser';
-import Evaluator from './evaluator';
+import * as qs     from './query_string';
+import Evaluator   from './evaluator';
+import BytesFilter from './filters/bytes';
 
 import Vue = require('vue');
-import * as qs from 'query-string';
 
 export class MainVM extends Vue {
-  public  output:    string;
-  private evalError: string;
-  private timeout:   number;
+  public  output: number[] = [];
+  private evalError        = "";
+  private timeout          = 10000;
+  private isStep           = false;
+  private evaluatorUpdated = false;
+  private count            = 0;
+  private memoryPage       = 0;
 
 
-  constructor(private program: string, private lang: la.Language = la.DEFAULT_LANGUAGE, private input: string = "") {
+  constructor(private program: string, private lang: la.Language = la.DEFAULT_LANGUAGE, private input: number[] = []) {
     super();
-    this.evalError = "";
-    this.timeout = 10000;
-
     this._init({
       el: '#vue-main',
       data: {
-        program:   this.program,
-        input:     this.input,
-        output:    this.output,
-        lang:      this.lang,
-        evalError: this.evalError,
+        program:    this.program,
+        input:      this.input,
+        output:     this.output,
+        lang:       this.lang,
+        evalError:  this.evalError,
+        isStep:     this.isStep,
+        count:      this.count,
+        memoryPage: this.memoryPage,
       },
       methods: {
         run: this.run,
         updatePermalink: this.updatePermalink,
+        tweet: this.tweet,
+        memory: this.memory,
+        toHex: this.toHex,
       },
       computed: {
         parseError:       this._parseError,
         invalidLangError: this._invalidLangError,
         hasError:         this._hasError,
+        tokens:           this._tokens,
+        evaluator:        this._evaluator,
+      },
+      filters: {
+        bytesFilter: BytesFilter,
       }
+    });
+
+    this.$watch('evaluator', () => {
+      this.evaluatorUpdated = true;
     });
   }
 
@@ -44,23 +60,23 @@ export class MainVM extends Vue {
   // methods
 
   run(): void {
-    this.output = "";
+    if (this.evaluatorUpdated) {
+      this.output = [];
+      this.evaluatorUpdated = false;
+    }
     this.evalError = "";
 
-    const tok = this.parse();
-    const e = new Evaluator(tok, this.timeout);
-
-    const bytes: number[] = [];
-    for (let i = 0; i < this.input.length; ++i) {
-      bytes.push(this.input.charCodeAt(i));
-    }
-
     try {
-      const out = e.eval(bytes);
-      this.output = String.fromCharCode(...out);
+      if (this.isStep) {
+        this.output.push(this.evaluator.step());
+      } else {
+        this.output.push(...this.evaluator.eval());
+      }
     } catch (e) {
       this.evalError = (<Error>e).message;
     }
+    this.count = this.evaluator.count;
+    this.memoryPage = Math.floor(this.evaluator.data.pos / 64);
   }
 
   updatePermalink(): void {
@@ -69,7 +85,7 @@ export class MainVM extends Vue {
       lang:    this.lang,
       input:   this.input,
     };
-    const se = StringifyQueryString(q).replace(/\./g, '%2E');
+    const se = qs.Stringify(q).replace(/\./g, '%2E');
     const url = `${location.protocol}//${location.host}${location.pathname}?${se}`;
     history.pushState(null, null, url);
   }
@@ -81,8 +97,36 @@ export class MainVM extends Vue {
     window.open(url);
   }
 
+  memory(idx: number): number {
+    const _ = this.count;
+    return this.evaluator.data.memory[idx];
+  }
+
+  isMemoryPos(pos: number): boolean {
+    const _ = this.count;
+    return this.evaluator.data.pos === pos;
+  }
+
+  toHex(n: number): string {
+    const hex = n.toString(16);
+    let res = "0x";
+    if (hex.length === 1) { res += 0; }
+    return res += hex;
+  }
+
+
 
   // computeds
+
+  private tokens: la.Token[];
+  _tokens(): la.Token[] {
+    return this.parse();
+  }
+
+  private evaluator: Evaluator;
+  _evaluator(): Evaluator {
+    return new Evaluator(this.tokens, this.input, this.timeout);
+  }
 
   private parseError: string;
   _parseError(): string {
@@ -114,46 +158,18 @@ export class MainVM extends Vue {
   }
 
 
-
   private parse(): la.Token[] {
     const c = new parser.Parser(this.lang);
     return c.parse(this.program);
   }
 }
 
-export interface QueryString {
-  program?: string;
-  lang?:    la.Language;
-  input?:   string;
-}
-
-export function ParseQueryString(): QueryString {
-  const obj = qs.parse(location.search);
-  let lang: la.Language;
-  if (obj.lang) {
-    lang = <la.Language>JSON.parse(obj.lang);
-  }
-
-  return {
-    program: obj.program,
-    lang:    lang,
-    input:   obj.input,
-  };
-}
-
-export function StringifyQueryString(q: QueryString): string {
-  const obj: any = {};
-  obj.program = q.program;
-  obj.input   = q.input;
-  obj.lang = JSON.stringify(q.lang);
-  return qs.stringify(obj);
-}
 
 const helloWorld = `This program is hello world
 +++++++++[>++++++++>+++++++++++>+++++<<<-]>.>++.+++++++..+++.>-.
 ------------.<++++++++.--------.+++.------.--------.>+.`;
 
-const q = ParseQueryString();
+const q = qs.Parse();
 const prog = q.program || helloWorld;
 
 const vm = new MainVM(prog, q.lang, q.input);

@@ -29,14 +29,21 @@
       <h3>Program</h3>
       <textarea class="form-control" rows="10" v-model="program"></textarea>
       <div class="alert alert-danger" v-if="parseError" v-text="parseError"></div>
-      <button class="btn btn-primary btn-lg" v-attr="disabled: hasError" v-on="click: run()">Run</button>
-      <button class="btn btn-success btn-lg" v-on="click: updatePermalink()">Permalink</button>
-      <button class="btn btn-info    btn-lg" v-on="click: tweet()">Tweet</button>
+
+      <form class="form-inline">
+        <a class="btn btn-primary btn-lg" v-attr="disabled: hasError" v-on="click: run()">Run</a>
+        <label class="control-label">
+          <input type="checkbox" class="form-control" v-model="isStep"> Stepwise
+        </label>
+
+        <a class="btn btn-info    btn-lg pull-right" v-on="click: tweet()">Tweet</a>
+        <a class="btn btn-success btn-lg pull-right" v-on="click: updatePermalink()">Permalink</a>
+      </form>
     </div>
 
     <div class="col-xs-6">
       <h3>Input</h3>
-      <input type="text" class="form-control" v-model="input">
+      <input type="text" class="form-control" v-model="input | bytesFilter">
 
       <h3>Timeout</h3>
       <input type="number" class="form-control" number v-model="timeout">
@@ -57,8 +64,25 @@
 
     <div class="col-xs-12">
       <h3>Output</h3>
-      <pre v-if="!evalError"><code v-text="output"></code></pre>
+      <pre v-if="!evalError"><code v-text="output | bytesFilter"></code></pre>
       <div class="alert alert-danger" v-if="evalError" v-text="evalError"></div>
+    </div>
+    <div class="col-xs-12">
+      step: {{count}}
+    </div>
+
+    <div class="col-xs-12">
+      <h3>Memory</h3>
+      <table class="table">
+        <tbody>
+        <tr v-repeat="i: 4">
+          <th>{{i * 16 + memoryPage * 64}} .. {{i * 16 + 15 + memoryPage * 64}}</th>
+          <td v-repeat="j: 16" v-class="bg-info: isMemoryPos(i * 16 + j + memoryPage * 64)">
+            {{toHex(memory(i * 16 + j + memoryPage * 64))}}
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
 
   </div>
