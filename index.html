@@ -71,6 +71,20 @@
       step: {{count}}
     </div>
 
+    <div class="col-xs-12">
+      <h3>Memory</h3>
+      <table class="table">
+        <tbody>
+        <tr v-repeat="i: 4">
+          <th>{{i * 16 + memoryPage * 64}} .. {{i * 16 + 15 + memoryPage * 64}}</th>
+          <td v-repeat="j: 16" v-class="bg-info: isMemoryPos(i * 16 + j + memoryPage * 64)">
+            {{toHex(memory(i * 16 + j + memoryPage * 64))}}
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </div>
 

@@ -30,4 +30,13 @@ describe('MainVM', () => {
       assert(location.search !== "");
     });
   });
+
+  describe('#toHex', () => {
+    it('should be hex', () => {
+      const vm = new UI.MainVM("");
+      assert(vm.toHex(0) === "0x00");
+      assert(vm.toHex(10) === "0x0a");
+      assert(vm.toHex(255) === "0xff");
+    });
+  });
 });

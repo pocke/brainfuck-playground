@@ -15,6 +15,7 @@ export class MainVM extends Vue {
   private isStep           = false;
   private evaluatorUpdated = false;
   private count            = 0;
+  private memoryPage       = 0;
 
 
   constructor(private program: string, private lang: la.Language = la.DEFAULT_LANGUAGE, private input: number[] = []) {
@@ -22,17 +23,21 @@ export class MainVM extends Vue {
     this._init({
       el: '#vue-main',
       data: {
-        program:   this.program,
-        input:     this.input,
-        output:    this.output,
-        lang:      this.lang,
-        evalError: this.evalError,
-        isStep:    this.isStep,
-        count:     this.count,
+        program:    this.program,
+        input:      this.input,
+        output:     this.output,
+        lang:       this.lang,
+        evalError:  this.evalError,
+        isStep:     this.isStep,
+        count:      this.count,
+        memoryPage: this.memoryPage,
       },
       methods: {
         run: this.run,
         updatePermalink: this.updatePermalink,
+        tweet: this.tweet,
+        memory: this.memory,
+        toHex: this.toHex,
       },
       computed: {
         parseError:       this._parseError,
@@ -71,6 +76,7 @@ export class MainVM extends Vue {
       this.evalError = (<Error>e).message;
     }
     this.count = this.evaluator.count;
+    this.memoryPage = Math.floor(this.evaluator.data.pos / 64);
   }
 
   updatePermalink(): void {
@@ -90,6 +96,24 @@ export class MainVM extends Vue {
     const url = `https://twitter.com/intent/tweet?hashtags=BrainfuckPlayground&original_referer=&tw_p=tweetbutton&url=${lo}`;
     window.open(url);
   }
+
+  memory(idx: number): number {
+    const _ = this.count;
+    return this.evaluator.data.memory[idx];
+  }
+
+  isMemoryPos(pos: number): bool {
+    const _ = this.count;
+    return this.evaluator.data.pos === pos;
+  }
+
+  toHex(n: number): string {
+    const hex = n.toString(16);
+    let res = "0x";
+    if (hex.length === 1) { res += 0; }
+    return res += hex;
+  }
+
 
 
   // computeds
