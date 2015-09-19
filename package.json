@@ -21,7 +21,7 @@
     "phantomjs": "^1.9.18",
     "power-assert": "^0.11.0",
     "tsd": "^0.6.3",
-    "typescript": "^1.5.3",
+    "typescript": "^1.6.2",
     "vinyl-source-stream": "^1.1.0"
   },
   "scripts": {
